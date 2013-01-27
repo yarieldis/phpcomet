@@ -1403,7 +1403,44 @@ class CI_DB_driver {
 	protected function _reset_select()
 	{
 	}
-
+	
+	// public interface to internal driver methods
+	public function dm_call_method($function, $p1 = null, $p2 = null, $p3 = null, $p4 = null)
+	{
+		switch (func_num_args())
+		{
+			case 1:
+				return $this->{$function}();
+			case 2:
+				return $this->{$function}($p1);
+				break;
+			case 3:
+				return $this->{$function}($p1, $p2);
+				break;
+			case 4:
+				return $this->{$function}($p1, $p2, $p3);
+				break;
+			case 5:
+				return $this->{$function}($p1, $p2, $p3, $p4);
+				break;
+		}
+	}
+	
+	// public interface to internal driver properties
+	public function dm_get($var)
+	{
+		return isset($this->{$var}) ? $this->{$var} : NULL;
+	}
+	
+	public function dm_set($var, $value)
+	{
+		$this->{$var} = $value;
+	}
+	
+	public function dm_set_append($var, $value)
+	{
+		$this->{$var}[] = $value;
+	}
 }
 
 /* End of file DB_driver.php */
