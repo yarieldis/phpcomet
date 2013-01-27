@@ -233,7 +233,26 @@
 		return CI_Controller::get_instance();
 	}
 
-
+	/*
+	 * ------------------------------------------------------
+	*  Load any controller in controllers folder
+	*  
+	*  @author: Yarieldis Claro Soto
+	*  @email:  yarieldis@yarieldis.com
+	*  @site:   www.yarieldis.com
+	* ------------------------------------------------------
+	*
+	* Note: Any controllers class that have Controller suffix
+	*       will be loaded.
+	*
+	*/
+	spl_autoload_register(function ($classname) {
+		$suffix = "controller";
+		if (strtolower(substr($classname, strlen($classname) - strlen($suffix), strlen($suffix))) == $suffix) {
+			require_once APPPATH."controllers/$classname.php";
+		}
+	});
+	
 	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
 	{
 		require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
